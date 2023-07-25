@@ -11,7 +11,7 @@ export const connectToDB = async () => {
   }
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.NEXT_PUBLIC_MONGODB_URI, {
       dbName: "Hearo",
       useNewUrlParser: true,
       useUnifiedTopology: true,

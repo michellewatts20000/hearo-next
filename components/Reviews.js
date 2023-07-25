@@ -1,6 +1,5 @@
 
 const Reviews = ({ posts }) => {
-  console.log(posts)
   return (
     <section className="container mx-auto py-8">
       <div className="flex flex-wrap mx-4 justify-center">
