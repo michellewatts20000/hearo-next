@@ -13,10 +13,9 @@ const Header = () => {
           </svg>
           </a>
             <div className="hidden md:flex md:gap-x-6">
-           
-              <a className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900" href="/#skills">About</a>
-              <a className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900" href="/#testimonials">Search</a>
-              <a className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900" href="/#resume">Add Review</a>
+              <a className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900" href="/about">About</a>
+              {/* <a className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900" href="/#testimonials">Search</a>
+              <a className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900" href="/#resume">Add Review</a> */}
             </div>
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">

@@ -6,8 +6,6 @@ const client = createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
 });
 
-console.log(process.env.CONTENTFUL_ACCESS_TOKEN);
-
 // Retrieve the list of blog posts from Contentful
 export const getBlogPosts = async () => {
   const response = await client.getEntries({
