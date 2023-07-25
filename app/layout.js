@@ -14,11 +14,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Provider>
+          <main className="app">
           <Navigation />
-          <main>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 pt-20 text-center lg:pt-22">
-              {children}
-            </div>
+            {children}
           </main>
           <Footer />
         </Provider>
