@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <body>
         <Provider>
           <main className="app">
-          <Navigation />
+            <Navigation />
             {children}
           </main>
           <Footer />
