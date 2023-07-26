@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { getBlogPosts } from "../src/utils";
-import '../styles/globals.css';
-import Main from "../components/Main";
-import Reviews from "../components/Reviews";
+import { getBlogPosts } from "@src/utils";
+import '@styles/globals.css';
+import Main from "@components/Main";
+import Reviews from "@components/Reviews";
+import Feed from '@components/Feed';
 
 export default function Page() {
   const [posts, setPosts] = useState([]);
@@ -24,8 +25,9 @@ export default function Page() {
 
   return (
     <>  
-      <Main />  
-      <Reviews posts={posts} />
+      <Main />
+      <Feed />
+      {/* <Reviews posts={posts} /> */}
     </>
   );
 }
