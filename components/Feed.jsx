@@ -37,7 +37,7 @@ const Feed = () => {
     fetchPosts();
   }, []);
 
-  const filterPrompts = (searchtext) => {
+  const filterReviews = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
     return allPosts.filter(
       (item) =>
@@ -54,16 +54,16 @@ const Feed = () => {
     // debounce method
     setSearchTimeout(
       setTimeout(() => {
-        const searchResult = filterPrompts(e.target.value);
+        const searchResult = filterReviews(e.target.value);
         setSearchedResults(searchResult);
       }, 500)
     );
   };
 
-  const handleTagClick = (tagName) => {
+  const handleStarClick = (tagName) => {
     setSearchText(tagName);
 
-    const searchResult = filterPrompts(tagName);
+    const searchResult = filterReviews(tagName);
     setSearchedResults(searchResult);
   };
 
@@ -84,10 +84,10 @@ const Feed = () => {
       {searchText ? (
         <PromptCardList
           data={searchedResults}
-          handleTagClick={handleTagClick}
+          handleStarClick={handleStarClick}
         />
       ) : (
-        <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
+        <PromptCardList data={allPosts} handleStarClick={handleStarClick} />
       )}
     </section>
   );
