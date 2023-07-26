@@ -4,11 +4,32 @@ import { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 
-const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
+const PromptCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
+
+  const renderStars = () => {
+    const stars = [];
+    const rating = post.rating || 0; // Ensure there's a default rating (in case it's not set)
+    for (let i = 1; i <= 5; i++) {
+      const starIcon = i <= rating ? faStar : farStar;
+      stars.push(
+        <FontAwesomeIcon
+          key={i}
+          icon={starIcon}
+          className={`h-5 w-5 cursor-pointer ${
+            i <= rating ? "text-yellow-500" : "text-gray-300"
+          }`}
+        />
+      );
+    }
+    return stars;
+  };
 
   console.log(post)
 
@@ -69,11 +90,8 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
       <p className='my-4 text-lg text-gray-700'>{post.place.placeName}</p>
       <p className='my-4 text-sm text-gray-700'>{post.comment}</p>
       
-      <p
-        className='font-inter text-sm blue_gradient cursor-pointer'
-        onClick={() => handleTagClick && handleTagClick(post.rating)}
-      >
-        {post.rating}
+      <p onClick={() => handleStarClick && handleStarClick(post.rating)} className="font-inter text-sm blue_gradient cursor-pointer">
+        {renderStars()}
       </p>
 
       {session?.user.id === post.creator._id && pathName === "/profile" && (

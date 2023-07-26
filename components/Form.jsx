@@ -1,6 +1,39 @@
 import Link from "next/link";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
+  const [rating, setRating] = useState(post.rating);
+
+  const handleStarClick = (starCount) => {
+    console.log(starCount)
+    setRating(starCount);
+    setPost({ ...post, rating: starCount });
+  };
+
+  const renderStars = () => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const starIcon = i <= rating ? solidStar : regularStar;
+      stars.push(
+        <FontAwesomeIcon
+          key={i}
+          icon={starIcon}
+          className={`h-6 w-6 cursor-pointer ${i <= rating ? "text-yellow-500" : "text-gray-300"
+            }`}
+          onClick={() => handleStarClick(i)}
+          onMouseEnter={() => setRating(i)}
+          onMouseLeave={() => setRating(post.rating)}
+        />
+      );
+    }
+    return stars;
+  };
+
+
+
   return (
     <section className='w-full max-w-full flex-start flex-col mx-auto'>
       <h1 className="font-display font-medium tracking-tight text-slate-900 sm:text-5xl mb-10">
@@ -47,14 +80,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
               (how loud was it?)
             </span>
           </span>
-          <input
-            value={post.rating}
-            onChange={(e) => setPost({ ...post, rating: e.target.value })}
-            type="text"
-            placeholder="Rating"
-            required
-            className="form_input"
-          />
+          <div className="flex items-center">{renderStars()}</div>
         </label>
 
         <div className="flex-end mx-3 mb-5 gap-4">
