@@ -15,7 +15,9 @@
   padding: 120px 24px 160px 24px;
   pointer-events: none;
 }
-
+.hero {
+  min-height: 50vh;
+}
 .main:before {
   background: radial-gradient(circle, rgba(17, 180, 194, 0) 0, #fafafa 100%);
   position: absolute;
@@ -72,7 +74,7 @@
 /* Tailwind Styles */
 
 .app {
-  @apply relative z-10 flex justify-center items-center flex-col max-w-7xl mx-auto sm:px-16 px-6;
+  @apply h-[800] relative z-10 flex justify-center items-center flex-col max-w-7xl mx-auto sm:px-16 px-6;
 }
 
 .black_btn {
