@@ -1,16 +1,16 @@
-import Prompt from "@models/prompt";
+import Review from "@models/review";
 import { connectToDB } from "@utils/database";
 
 export const POST = async (request) => {
-    const { userId, prompt, tag } = await request.json();
+    const { userId, comment, rating } = await request.json();
 
     try {
         await connectToDB();
-        const newPrompt = new Prompt({ creator: userId, prompt, tag });
+        const newReview = new Review({ creator: userId, comment, rating });
 
-        await newPrompt.save();
-        return new Response(JSON.stringify(newPrompt), { status: 201 })
+        await newReview.save();
+        return new Response(JSON.stringify(newReview), { status: 201 })
     } catch (error) {
-        return new Response("Failed to create a new prompt", { status: 500 });
+        return new Response("Failed to create a new review", { status: 500 });
     }
 }
