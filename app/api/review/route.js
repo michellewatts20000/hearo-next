@@ -1,5 +1,5 @@
 import Review from "@models/review";
-import { connectToDB } from "@utils/database";
+import { connectToDB } from "@src/database";
 
 export const GET = async (request) => {
     try {

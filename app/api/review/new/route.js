@@ -1,5 +1,5 @@
 import Review from "@models/review";
-import { connectToDB } from "@utils/database";
+import { connectToDB } from "@src/database";
 
 export const POST = async (request) => {
     const { userId, comment, rating } = await request.json();

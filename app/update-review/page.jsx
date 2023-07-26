@@ -5,40 +5,40 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import Form from "@components/Form";
 
-const UpdatePrompt = () => {
+const UpdateReview = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const promptId = searchParams.get("id");
+  const reviewId = searchParams.get("id");
 
-  const [post, setPost] = useState({ prompt: "", tag: "", });
+  const [post, setPost] = useState({ comment: "", rating: "", });
   const [submitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const getPromptDetails = async () => {
-      const response = await fetch(`/api/prompt/${promptId}`);
+    const getReviewDetails = async () => {
+      const response = await fetch(`/api/review/${reviewId}`);
       const data = await response.json();
 
       setPost({
-        prompt: data.prompt,
-        tag: data.tag,
+        comment: data.comment,
+        rating: data.rating,
       });
     };
 
-    if (promptId) getPromptDetails();
-  }, [promptId]);
+    if (reviewId) getReviewDetails();
+  }, [reviewId]);
 
-  const updatePrompt = async (e) => {
+  const updateReview = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (!promptId) return alert("Missing PromptId!");
+    if (!reviewId) return alert("Missing ReviewId!");
 
     try {
-      const response = await fetch(`/api/prompt/${promptId}`, {
+      const response = await fetch(`/api/review/${reviewId}`, {
         method: "PATCH",
         body: JSON.stringify({
-          prompt: post.prompt,
-          tag: post.tag,
+          comment: post.comment,
+          rating: post.rating,
         }),
       });
 
@@ -58,9 +58,9 @@ const UpdatePrompt = () => {
       post={post}
       setPost={setPost}
       submitting={submitting}
-      handleSubmit={updatePrompt}
+      handleSubmit={updateReview}
     />
   );
 };
 
-export default UpdatePrompt;
+export default UpdateReview;

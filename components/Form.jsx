@@ -7,8 +7,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         {type} <span className="relative whitespace-nowrap text-primary-500">Review</span>
       </h1>
       <p className='desc text-left max-w-md'>
-        {type} and share amazing prompts with the world, and let your
-        imagination run wild with any AI-powered platform
+        {type} and share your reviews with the world.
       </p>
 
       <form
@@ -17,12 +16,12 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
       >
         <label>
           <span className='font-satoshi font-semibold text-base text-gray-700'>
-            Your AI Prompt
+            Your Comment
           </span>
 
           <textarea
-            value={post.prompt}
-            onChange={(e) => setPost({ ...post, prompt: e.target.value })}
+            value={post.comment}
+            onChange={(e) => setPost({ ...post, comment: e.target.value })}
             placeholder='Write your post here'
             required
             className='form_textarea '
@@ -31,16 +30,16 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
 
         <label>
           <span className='font-satoshi font-semibold text-base text-gray-700'>
-            Field of Prompt{" "}
+            Your rating{" "}
             <span className='font-normal'>
-              (#product, #webdevelopment, #idea, etc.)
+              (how loud was it?)
             </span>
           </span>
           <input
-            value={post.tag}
-            onChange={(e) => setPost({ ...post, tag: e.target.value })}
+            value={post.rating}
+            onChange={(e) => setPost({ ...post, rating: e.target.value })}
             type='text'
-            placeholder='#Tag'
+            placeholder='Rating'
             required
             className='form_input'
           />
@@ -54,7 +53,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           <button
             type='submit'
             disabled={submitting}
-            className='px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white'
+            className='px-5 py-1.5 text-sm bg-primary-orange rounded-full text-black'
           >
             {submitting ? `${type}ing...` : type}
           </button>
