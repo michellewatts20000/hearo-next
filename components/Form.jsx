@@ -29,7 +29,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         </label>
 
         <label>
-          <span className='font-satoshi font-semibold text-base text-gray-700'>
+          <span className='font-semibold text-base text-gray-700'>
             Your rating{" "}
             <span className='font-normal'>
               (how loud was it?)

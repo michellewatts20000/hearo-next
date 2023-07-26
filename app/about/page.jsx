@@ -3,7 +3,7 @@
 const About = () => {
     return (
         <>
-            <div className="text-left">
+            <div className="text-left h-50">
                 <h1 className="font-display font-medium tracking-tight text-slate-900 sm:text-5xl mb-10">
                     About <span className="relative whitespace-nowrap text-primary-500">Hearo</span>
                 </h1>
