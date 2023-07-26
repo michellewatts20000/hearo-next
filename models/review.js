@@ -5,8 +5,7 @@ const ReviewSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  place:
-  {
+  place:  {
     type: Schema.Types.ObjectId,
     ref: 'Place',
   },

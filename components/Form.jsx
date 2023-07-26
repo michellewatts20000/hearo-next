@@ -9,51 +9,63 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
       <p className='desc text-left max-w-md'>
         {type} and share your reviews with the world.
       </p>
-
       <form
         onSubmit={handleSubmit}
         className='mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism'
       >
         <label>
-          <span className='font-satoshi font-semibold text-base text-gray-700'>
+          <span className="font-semibold text-base text-gray-700">
+            Place name
+          </span>
+          <input
+            value={post.placeName}
+            onChange={(e) => setPost({ ...post, placeName: e.target.value })}
+            type="text"
+            placeholder="Place name"
+            required
+            className="form_input"
+          />
+        </label>
+        <label>
+          <span className="font-semibold text-base text-gray-700">
             Your Comment
           </span>
 
           <textarea
             value={post.comment}
             onChange={(e) => setPost({ ...post, comment: e.target.value })}
-            placeholder='Write your post here'
+            placeholder="Write your post here"
             required
-            className='form_textarea '
+            className="form_textarea"
           />
         </label>
 
         <label>
-          <span className='font-semibold text-base text-gray-700'>
+          <span className="font-semibold text-base text-gray-700">
             Your rating{" "}
-            <span className='font-normal'>
+            <span className="font-normal">
               (how loud was it?)
             </span>
           </span>
           <input
             value={post.rating}
             onChange={(e) => setPost({ ...post, rating: e.target.value })}
-            type='text'
-            placeholder='Rating'
+            type="text"
+            placeholder="Rating"
             required
-            className='form_input'
+            className="form_input"
           />
         </label>
 
-        <div className='flex-end mx-3 mb-5 gap-4'>
-          <Link href='/' className='text-gray-500 text-sm'>
+        <div className="flex-end mx-3 mb-5 gap-4">
+          <Link href="/" className="text-gray-500 text-sm">
             Cancel
           </Link>
 
           <button
-            type='submit'
+            type="submit"
             disabled={submitting}
-            className='rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-primary-500 text-white hover:text-slate-100'
+            className="rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-primary-500 text-white hover:text-slate-100"
           >
             {submitting ? `${type}ing...` : type}
           </button>

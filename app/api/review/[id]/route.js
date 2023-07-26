@@ -3,17 +3,16 @@ import { connectToDB } from "@src/database";
 
 export const GET = async (request, { params }) => {
     try {
-        await connectToDB()
-
-        const review = await Review.findById(params.id).populate("creator")
+        await connectToDB();
+        const review = await Review.findById(params.id).populate("creator").populate("place")
         if (!review) return new Response("Review Not Found", { status: 404 });
-
-        return new Response(JSON.stringify(review), { status: 200 })
-
+        return new Response(JSON.stringify(review), { status: 200 });
     } catch (error) {
         return new Response("Internal Server Error", { status: 500 });
     }
-}
+};
+
+// The rest of the PATCH and DELETE functions remain unchanged
 
 export const PATCH = async (request, { params }) => {
     const { comment, rating } = await request.json();

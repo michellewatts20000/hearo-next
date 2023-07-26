@@ -17,16 +17,16 @@ const PlaceSchema = new Schema({
     maxlength: 280,
     trim: true,
   },
-    placeType: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  placeLocation: {
-    type: String,
-    required: true,
-    trim: true,
-  }
+  //   placeType: {
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  // },
+  // placeLocation: {
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  // }
 });
 
 const Place = models.Place || model('Place', PlaceSchema);

@@ -10,6 +10,8 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
   const pathName = usePathname();
   const router = useRouter();
 
+  console.log(post)
+
   const [copied, setCopied] = useState("");
 
   const handleProfileClick = () => {
@@ -64,8 +66,9 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
           />
         </div>
       </div>
-
-      <p className='my-4 font-satoshi text-sm text-gray-700'>{post.comment}</p>
+      <p className='my-4 text-lg text-gray-700'>{post.place.placeName}</p>
+      <p className='my-4 text-sm text-gray-700'>{post.comment}</p>
+      
       <p
         className='font-inter text-sm blue_gradient cursor-pointer'
         onClick={() => handleTagClick && handleTagClick(post.rating)}

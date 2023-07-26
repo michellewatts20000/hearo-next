@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 import Form from "@components/Form";
 
-const CreatePrompt = () => {
+const CreateReview = () => {
   const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({
+    placeName: "",
     comment: "",
     rating: "",
   });
@@ -15,14 +16,14 @@ const CreatePrompt = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const createPrompt = async (e) => {
+  const createReview = async (e) => {
     e.preventDefault();
     setSubmitting(true);
 
     try {
       const response = await fetch("/api/review/new", {
         method: "POST",
-        body: JSON.stringify({ comment: post.comment, rating: post.rating, userId: session?.user.id }),
+        body: JSON.stringify({ placeName: post.placeName, comment: post.comment, rating: post.rating, userId: session?.user.id }),
       });
 
       if(response.ok) {
@@ -41,9 +42,9 @@ const CreatePrompt = () => {
       post={post}
       setPost={setPost}
       submitting={submitting}
-      handleSubmit={createPrompt}
+      handleSubmit={createReview}
     />
   );
 };
 
-export default CreatePrompt;
+export default CreateReview;
