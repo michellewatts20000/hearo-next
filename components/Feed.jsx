@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 
-import PromptCard from "./PromptCard";
+import ReviewCard from "./ReviewCard";
 
-const PromptCardList = ({ data, handleTagClick }) => {
+const ReviewCardList = ({ data, handleTagClick }) => {
   return (
-    <div className='mt-16 prompt_layout'>
+    <div className='mt-16 review_layout'>
       {data.map((post) => (
-        <PromptCard
+        <ReviewCard
           key={post._id}
           post={post}
           handleTagClick={handleTagClick}
@@ -79,14 +79,14 @@ const Feed = () => {
         />
       </form>
 
-      {/* All Prompts */}
+      {/* All Reviews */}
       {searchText ? (
-        <PromptCardList
+        <ReviewCardList
           data={searchedResults}
           handleStarClick={handleStarClick}
         />
       ) : (
-        <PromptCardList data={allPosts} handleStarClick={handleStarClick} />
+        <ReviewCardList data={allPosts} handleStarClick={handleStarClick} />
       )}
     </section>
   );

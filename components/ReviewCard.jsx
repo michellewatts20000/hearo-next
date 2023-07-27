@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 
-const PromptCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
+const ReviewCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
@@ -47,7 +47,7 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
   };
 
   return (
-    <div className='prompt_card'>
+    <div className='review_card'>
       <div className='flex justify-between items-start gap-5'>
         <div
           className='flex-1 flex justify-start items-center gap-3 cursor-pointer'
@@ -111,4 +111,4 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
   );
 };
 
-export default PromptCard;
+export default ReviewCard;

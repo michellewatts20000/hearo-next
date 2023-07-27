@@ -98,7 +98,7 @@ const Nav = () => {
                   className='dropdown_link'
                   onClick={() => setToggleDropdown(false)}
                 >
-                  Create Prompt
+                  Create Review
                 </Link>
                 <button
                   type='button'
