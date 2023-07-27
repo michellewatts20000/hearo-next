@@ -9,7 +9,6 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
   const [rating, setRating] = useState(post.rating);
 
   const handleStarClick = (starCount) => {
-    console.log(starCount)
     setRating(starCount);
     setPost({ ...post, rating: starCount });
   };
@@ -47,20 +46,20 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         onSubmit={handleSubmit}
         className='mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism'
       >
-      <PlaceFinder setPost={setPost} />
-        {/* <label>
+        <PlaceFinder setPost={setPost} />
+        <label>
           <span className="font-semibold text-base text-gray-700">
-            Place name
+            Place location
           </span>
           <input
-            value={post.placeName}
-            onChange={(e) => setPost({ ...post, placeName: e.target.value })}
+            value={post.placeLocation || ""}
+            onChange={(e) => setPost({ ...post, placeLocation: e.target.value })}
             type="text"
-            placeholder="Place name"
+            placeholder="Place location"
             required
             className="form_input"
           />
-        </label> */}
+        </label> 
         <label>
           <span className="font-semibold text-base text-gray-700">
             Your Comment

@@ -1,102 +1,140 @@
 import React, { useState, useEffect, useRef } from "react";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
 
-let autoComplete;
+function PlaceFinder(props) {
+  console.log(props, 'props')
+  const { setPost } = props;
+  const [query, setQuery] = useState("");
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const autoCompleteRef = useRef(null);
 
-const loadScript = (url, callback) => {
-    let script = document.createElement("script");
-    script.type = "text/javascript";
-
-    if (script.readyState) {
-        script.onreadystatechange = function () {
-            if (script.readyState === "loaded" || script.readyState === "complete") {
-                script.onreadystatechange = null;
-                callback();
-            }
-        };
-    } else {
-        script.onload = () => callback();
+  const handleSelect = async (address) => {
+    try {
+      const results = await geocodeByAddress(address);
+      const latLng = await getLatLng(results[0]);
+      setQuery(address);
+      setPost(address);
+      setAddress(address);
+      setCoordinates(latLng);
+    } catch (error) {
+      console.error("Error: ", error);
     }
+  };
 
-    script.src = url;
-    document.getElementsByTagName("head")[0].appendChild(script);
-};
+  const handleInputChange = (newValue) => {
+    setQuery(newValue);
+  };
 
-function handleScriptLoad(updateQuery, autoCompleteRef) {
-    const center = { lat: -33.865143, lng: 151.2099 };
-    const defaultBounds = {
-        north: center.lat + 0.1,
-        south: center.lat - 0.1,
-        east: center.lng + 0.1,
-        west: center.lng - 0.1,
+  useEffect(() => {
+    // Load Google Maps Places API script
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&type=restaurant`;
+
+    script.onload = () => {
+      handleScriptLoad(setQuery, autoCompleteRef);
+      setScriptLoaded(true);
     };
 
-    autoComplete = new window.google.maps.places.Autocomplete(
-        autoCompleteRef.current,
-        {
-            bounds: defaultBounds,
-            types: ["establishment"],
-            componentRestrictions: { country: "au" },
-            fields: ["name", "formatted_address"],
-        }
-    );
-    autoComplete.setFields(["address_components", "formatted_address"]);
-    autoComplete.addListener("place_changed", () =>
-        handlePlaceSelect(updateQuery)
-    );
-}
+    document.getElementsByTagName("head")[0].appendChild(script);
 
-async function handlePlaceSelect(updateQuery) {
-    const addressObject = autoComplete.getPlace()
+    return () => {
+      // Cleanup: Remove the script when the component unmounts
+      document.getElementsByTagName("head")[0].removeChild(script);
+    };
+  }, []); // Empty dependency array ensures this effect runs only once on mount
 
-    updateQuery(addressObject);
-}
+  const handleScriptLoad = (updateQuery, autoCompleteRef) => {
+    const center = { lat: -33.865143, lng: 151.2099 };
+    const defaultBounds = {
+      north: center.lat + 0.1,
+      south: center.lat - 0.1,
+      east: center.lng + 0.1,
+      west: center.lng - 0.1,
+    };
+  };
 
-function PlaceFinder(props) {
+  const handleClear = () => {
+    setQuery("");
+    setAddress("");
+    setCoordinates({ lat: null, lng: null });
+  };
 
-    console.log(props)
+  useEffect(() => {
+    setPost((formstate) => ({
+      ...formstate,
+      placeName: query?.split(",")[0],
+      placeLocation: address ? `${query.split(",")[1]}, ${query.split(",")[2]}` : "",
+    }));
+  }, [setPost, query]);
 
-    const [query, setQuery] = useState("");
-    const autoCompleteRef = useRef(null);
+  if (!scriptLoaded) {
+    // Show a loading message or component while the script is loading
+    return <div>Loading...</div>;
+  }
 
-
-
-    useEffect(() => {
-        loadScript(
-            `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&type=restaurant`,
-            () => handleScriptLoad(setQuery, autoCompleteRef)
-        );
-    }, []);
-
-    const { setPost } = props;
-
-    useEffect(() => {
-        setPost((formstate) => {
-            return {
-                ...formstate,
-                placeName: query.name,
-                placeLocation: query.formatted_address
-            }
-        });
-    }, [setPost, query]);
-    return (
-        <>
-            <label>
-                <span className="font-semibold text-base text-gray-700">
-                    Place name
-                </span>
+  return (
+    <>
+      <label>
+        <span className="font-semibold text-base text-gray-700">
+          Place name
+        </span>
+        {scriptLoaded && (
+          <PlacesAutocomplete
+            value={query}
+            onChange={handleInputChange}
+            onSelect={handleSelect}
+            searchOptions={{ types: ["establishment"], componentRestrictions: { country: "au" } }}
+          >
+            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+              <div>
                 <input
-                    variant="regular"
-                    ref={autoCompleteRef}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Enter Place"
-                    value={query.name}
-                    className="form_input"
+                  {...getInputProps({
+                    placeholder: "Enter Place",
+                    className: "form_input",
+                  })}
+                  value={query.split(",")[0]}
+                // Update the input value with the selected query
                 />
-            </label>
-        </>
-    );
+                {/* Clear button */}
+                {query && (
+                  <button
+                    onClick={handleClear}
+                    className="bg-primary-500 rounded-full py-2 px-2"
+                  >
+                    X
+                  </button>
+                )}
+                <div>
+                  {loading && <div>Loading...</div>}
+                  {suggestions.map((suggestion) => {
+                    const style = {
+                      backgroundColor: suggestion.active ? "primary-500" : "#fff",
+                    };
+                    return (
+                      <div
+                        {...getSuggestionItemProps(suggestion, { style })}
+                        key={suggestion.placeId}
+                      >
+                        {suggestion.description}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </PlacesAutocomplete>
+        )}
+      </label>
+    </>
+  );
 }
 
 export default PlaceFinder;
