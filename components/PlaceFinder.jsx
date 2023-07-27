@@ -1,28 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from "react-places-autocomplete";
+import React, { useState, useEffect } from "react";
+import PlacesAutocomplete from "react-places-autocomplete";
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
 
 function PlaceFinder(props) {
-  console.log(props, 'props')
   const { setPost } = props;
   const [query, setQuery] = useState("");
   const [address, setAddress] = useState("");
-  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
   const [scriptLoaded, setScriptLoaded] = useState(false);
-  const autoCompleteRef = useRef(null);
 
   const handleSelect = async (address) => {
     try {
-      const results = await geocodeByAddress(address);
-      const latLng = await getLatLng(results[0]);
       setQuery(address);
-      setPost(address);
       setAddress(address);
-      setCoordinates(latLng);
     } catch (error) {
       console.error("Error: ", error);
     }
@@ -39,7 +29,6 @@ function PlaceFinder(props) {
     script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&type=restaurant`;
 
     script.onload = () => {
-      handleScriptLoad(setQuery, autoCompleteRef);
       setScriptLoaded(true);
     };
 
@@ -51,29 +40,18 @@ function PlaceFinder(props) {
     };
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
-  const handleScriptLoad = (updateQuery, autoCompleteRef) => {
-    const center = { lat: -33.865143, lng: 151.2099 };
-    const defaultBounds = {
-      north: center.lat + 0.1,
-      south: center.lat - 0.1,
-      east: center.lng + 0.1,
-      west: center.lng - 0.1,
-    };
-  };
-
   const handleClear = () => {
     setQuery("");
     setAddress("");
-    setCoordinates({ lat: null, lng: null });
   };
 
   useEffect(() => {
     setPost((formstate) => ({
       ...formstate,
-      placeName: query?.split(",")[0],
+      placeName: address ? query?.split(",")[0] : "",
       placeLocation: address ? `${query.split(",")[1]}, ${query.split(",")[2]}` : "",
     }));
-  }, [setPost, query]);
+  }, [setPost, address]);
 
   if (!scriptLoaded) {
     // Show a loading message or component while the script is loading
@@ -95,28 +73,30 @@ function PlaceFinder(props) {
           >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
               <div>
-                <input
-                  {...getInputProps({
-                    placeholder: "Enter Place",
-                    className: "form_input",
-                  })}
-                  value={query.split(",")[0]}
-                // Update the input value with the selected query
-                />
-                {/* Clear button */}
-                {query && (
-                  <button
-                    onClick={handleClear}
-                    className="bg-primary-500 rounded-full py-2 px-2"
-                  >
-                    X
-                  </button>
-                )}
+                <div style={{ display: "flex" }}>
+                  <input
+                    {...getInputProps({
+                      placeholder: "Enter Place",
+                      className: "form_input",
+                    })}
+                    value={query.split(",")[0]}
+                  // Update the input value with the selected query
+                  />
+                  {/* Clear button */}
+                  {query && (
+                    <button
+                      onClick={handleClear}
+                      className="mt-5 w-full black_btn" // Add some margin to separate the button from the input
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
                 <div>
                   {loading && <div>Loading...</div>}
                   {suggestions.map((suggestion) => {
                     const style = {
-                      backgroundColor: suggestion.active ? "primary-500" : "#fff",
+                      backgroundColor: suggestion.active ? "#62C5C1" : "#fff",
                     };
                     return (
                       <div
