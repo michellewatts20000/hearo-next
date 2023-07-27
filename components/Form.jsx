@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
+import PlaceFinder from "./PlaceFinder";
 
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
   const [rating, setRating] = useState(post.rating);
@@ -46,7 +47,8 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         onSubmit={handleSubmit}
         className='mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism'
       >
-        <label>
+      <PlaceFinder setPost={setPost} />
+        {/* <label>
           <span className="font-semibold text-base text-gray-700">
             Place name
           </span>
@@ -58,7 +60,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
             required
             className="form_input"
           />
-        </label>
+        </label> */}
         <label>
           <span className="font-semibold text-base text-gray-700">
             Your Comment
