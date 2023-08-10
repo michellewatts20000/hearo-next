@@ -6,13 +6,15 @@ export const POST = async (request) => {
     try {
         await connectToDB();
 
-        const { userId, comment, rating, placeName } = await request.json();
+        const { userId, comment, rating, placeName, placeLocation, placeTypes } = await request.json();
 
         let place = await Place.findOne({ placeName });
 
         if (!place) {
-            const newPlace = new Place({ creator: userId, placeName });
+            const newPlace = new Place({ creator: userId, placeName, placeLocation, placeTypes });
             await newPlace.save();
+
+            console.log(newPlace)
 
             const responseData = {
                 place: newPlace,

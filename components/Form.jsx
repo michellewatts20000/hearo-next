@@ -6,6 +6,7 @@ import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import PlaceFinder from "./PlaceFinder";
 
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
+  console.log(post)
   const [rating, setRating] = useState(post.rating);
 
   const handleStarClick = (starCount) => {
@@ -35,7 +36,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
 
 
   return (
-    <section className='w-full max-w-full flex-start flex-col mx-auto'>
+    <section className='w-full max-w-full flex-start flex-col mx-auto py-10'>
       <h1 className="font-display font-medium tracking-tight text-slate-900 sm:text-5xl mb-10">
         {type} <span className="relative whitespace-nowrap text-primary-500">Review</span>
       </h1>
@@ -46,23 +47,51 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         onSubmit={handleSubmit}
         className='mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism'
       >
-        <PlaceFinder setPost={setPost} />
+        <PlaceFinder setPost={setPost} post={post} />
+        {post.placeLocation && (
+          <label>
+            <span className="font-semibold text-base text-gray-700">
+              Place location
+            </span>
+            <input
+              value={post.placeLocation || ""}
+              onChange={(e) => setPost({ ...post, placeLocation: e.target.value })}
+              type="text"
+              placeholder="Place location"
+              required
+              className="form_input"
+            />
+          </label>
+        )}
+        {post.placeTypes && (
+          <label>
+            <span className="font-semibold text-base text-gray-700 mr-5">
+              Place types
+            </span>
+            {post.placeTypes
+              .filter((type) => !["establishment", "point_of_interest"].includes(type))
+              .map((type) => (
+                <span
+                  key={type}
+                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"
+                >
+                  {type.replace(/_/g, ' ')} {/* Replace underscores with spaces */}
+                </span>
+              ))}
+          </label>
+        )}
         <label>
           <span className="font-semibold text-base text-gray-700">
-            Place location
+            Your rating{" "}
+            <span className="font-normal">
+              (how loud was it?)
+            </span>
           </span>
-          <input
-            value={post.placeLocation || ""}
-            onChange={(e) => setPost({ ...post, placeLocation: e.target.value })}
-            type="text"
-            placeholder="Place location"
-            required
-            className="form_input"
-          />
-        </label> 
+          <div className="flex items-center mt-3">{renderStars()}</div>
+        </label>
         <label>
           <span className="font-semibold text-base text-gray-700">
-            Your Comment
+            Your comment
           </span>
 
           <textarea
@@ -74,15 +103,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           />
         </label>
 
-        <label>
-          <span className="font-semibold text-base text-gray-700">
-            Your rating{" "}
-            <span className="font-normal">
-              (how loud was it?)
-            </span>
-          </span>
-          <div className="flex items-center">{renderStars()}</div>
-        </label>
+
 
         <div className="flex-end mx-3 mb-5 gap-4">
           <Link href="/" className="text-gray-500 text-sm">

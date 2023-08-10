@@ -15,16 +15,15 @@ const ReviewCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
 
   const renderStars = () => {
     const stars = [];
-    const rating = post.rating || 0; // Ensure there's a default rating (in case it's not set)
+    const rating = post.rating || 0; // Ensure there"s a default rating (in case it"s not set)
     for (let i = 1; i <= 5; i++) {
       const starIcon = i <= rating ? faStar : farStar;
       stars.push(
         <FontAwesomeIcon
           key={i}
           icon={starIcon}
-          className={`h-5 w-5 cursor-pointer ${
-            i <= rating ? "text-yellow-500" : "text-gray-300"
-          }`}
+          className={`h-5 w-5 cursor-pointer ${i <= rating ? "text-yellow-500" : "text-gray-300"
+            }`}
         />
       );
     }
@@ -35,7 +34,7 @@ const ReviewCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
   const [copied, setCopied] = useState("");
 
   const handleProfileClick = () => {
-     if (post.creator._id === session?.user.id) return router.push("/profile");
+    if (post.creator._id === session?.user.id) return router.push("/profile");
 
     router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
   };
@@ -47,31 +46,31 @@ const ReviewCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
   };
 
   return (
-    <div className='review_card'>
-      <div className='flex justify-between items-start gap-5'>
+    <div className="review_card">
+      <div className="flex justify-between items-start gap-5">
         <div
-          className='flex-1 flex justify-start items-center gap-3 cursor-pointer'
+          className="flex-1 flex justify-start items-center gap-3 cursor-pointer"
           onClick={handleProfileClick}
         >
           <Image
             src={post.creator.image}
-            alt='user_image'
+            alt="user_image"
             width={40}
             height={40}
-            className='rounded-full object-contain'
+            className="rounded-full object-contain"
           />
 
-          <div className='flex flex-col'>
-            <h3 className='font-satoshi font-semibold text-gray-900'>
+          <div className="flex flex-col">
+            <h3 className="font-satoshi font-semibold text-gray-900">
               {post.creator.username}
             </h3>
-            <p className='font-inter text-sm text-gray-500'>
+            <p className="font-inter text-sm text-gray-500">
               {post.creator.email}
             </p>
           </div>
         </div>
 
-        <div className='copy_btn' onClick={handleCopy}>
+        <div className="copy_btn" onClick={handleCopy}>
           <Image
             src={
               copied === post.comment
@@ -84,23 +83,38 @@ const ReviewCard = ({ post, handleEdit, handleDelete, handleStarClick }) => {
           />
         </div>
       </div>
-      <p className='my-4 text-lg text-gray-700'>{post.place.placeName}</p>
-      <p className='my-4 text-sm text-gray-700'>{post.comment}</p>
-      
-      <p onClick={() => handleStarClick && handleStarClick(post.rating)} className="font-inter text-sm blue_gradient cursor-pointer">
+      <p onClick={() => handleStarClick && handleStarClick(post.place.placeName)} className="mt-4 mb-2 text-xl font-bold text-gray-700">{post.place.placeName}</p>
+      <p className="mb-4 text-md text-gray-700">{post.place.placeLocation}</p>
+      <p className="mb-4 text-lg text-gray-700">{post.comment}</p>
+      <div className="mb-5">
+        {post.place.placeTypes
+          .filter((type) => !["establishment", "point_of_interest"].includes(type))
+          .map((type) => (
+            <span
+              key={type}
+              className="inline-block bg-gray-200 rounded-full px-3 py-1 mt-2 text-sm font-semibold text-gray-700 mr-2"
+            >
+              {type.replace(/_/g, ' ')} {/* Replace underscores with spaces */}
+            </span>
+          ))}
+
+      </div>
+
+
+      <p className="font-inter text-sm blue_gradient cursor-pointer">
         {renderStars()}
       </p>
 
       {session?.user.id === post.creator._id && pathName === "/profile" && (
-        <div className='mt-5 flex-center gap-4 border-t border-gray-100 pt-3'>
+        <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
           <p
-            className='font-inter text-sm green_gradient cursor-pointer'
+            className="text-sm green_gradient cursor-pointer"
             onClick={handleEdit}
           >
             Edit
           </p>
           <p
-            className='text-sm cursor-pointer'
+            className="text-sm cursor-pointer"
             onClick={handleDelete}
           >
             Delete

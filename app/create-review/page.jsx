@@ -8,6 +8,8 @@ import Form from "@components/Form";
 const CreateReview = () => {
   const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({
+    placeTypes: "",
+    placeLocation: "",
     placeName: "",
     comment: "",
     rating: "",
@@ -23,8 +25,10 @@ const CreateReview = () => {
     try {
       const response = await fetch("/api/review/new", {
         method: "POST",
-        body: JSON.stringify({ placeName: post.placeName, comment: post.comment, rating: post.rating, userId: session?.user.id }),
+        body: JSON.stringify({ placeName: post.placeName, placeLocation: post.placeLocation, placeTypes: post.placeTypes, comment: post.comment, rating: post.rating, userId: session?.user.id }),
       });
+
+      console.log(response, 'response')
 
       if(response.ok) {
         router.push("/")

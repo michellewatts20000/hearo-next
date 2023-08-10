@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
-import PlacesAutocomplete from "react-places-autocomplete";
+import PlacesAutocomplete, {
+  geocodeByAddress
+} from "react-places-autocomplete";
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
 
 function PlaceFinder(props) {
-  const { setPost } = props;
+  console.log(props)
+  const { setPost, post } = props;
   const [query, setQuery] = useState("");
   const [address, setAddress] = useState("");
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   const handleSelect = async (address) => {
     try {
-      setQuery(address);
-      setAddress(address);
+      const results = await geocodeByAddress(address);
+      const addressDetails = {
+        placeName: address?.split(",")[0],
+        placeLocation: `${address?.split(",")[1]}, ${address?.split(",")[2]}`,
+        placeTypes: results[0].types, // Save the geocoded results in the state
+      };
+      console.log(addressDetails)
+      setQuery(addressDetails.placeName);
+      setAddress(addressDetails);
     } catch (error) {
       console.error("Error: ", error);
     }
@@ -26,8 +36,8 @@ function PlaceFinder(props) {
     // Load Google Maps Places API script
     const script = document.createElement("script");
     script.type = "text/javascript";
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&type=restaurant`;
-
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=Function.prototype&libraries=places`;
+console.log(script)
     script.onload = () => {
       setScriptLoaded(true);
     };
@@ -42,14 +52,17 @@ function PlaceFinder(props) {
 
   const handleClear = () => {
     setQuery("");
-    setAddress("");
+    setAddress({ placeName:"", placeLocation:"", placeTypes:[] });
+    console.log("Clearing address state", query, address)
   };
 
   useEffect(() => {
+    console.log("Address state changed:", address);
     setPost((formstate) => ({
       ...formstate,
-      placeName: address ? query?.split(",")[0] : "",
-      placeLocation: address ? `${query.split(",")[1]}, ${query.split(",")[2]}` : "",
+      placeName: address.placeName,
+      placeLocation: address.placeLocation,
+      placeTypes: address.placeTypes,
     }));
   }, [setPost, address]);
 
@@ -79,14 +92,14 @@ function PlaceFinder(props) {
                       placeholder: "Enter Place",
                       className: "form_input",
                     })}
-                    value={query.split(",")[0]}
+                    value={query}
                   // Update the input value with the selected query
                   />
                   {/* Clear button */}
-                  {query && (
+                  {(query) && (
                     <button
                       onClick={handleClear}
-                      className="mt-5 w-full black_btn" // Add some margin to separate the button from the input
+                      className="rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-primary-500 text-white hover:text-slate-100" // Add some margin to separate the button from the input
                     >
                       Clear
                     </button>

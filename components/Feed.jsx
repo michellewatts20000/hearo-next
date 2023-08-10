@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 
 import ReviewCard from "./ReviewCard";
 
-const ReviewCardList = ({ data, handleTagClick }) => {
+const ReviewCardList = ({ data, handleStarClick }) => {
   return (
     <div className='mt-16 review_layout'>
       {data.map((post) => (
         <ReviewCard
           key={post._id}
           post={post}
-          handleTagClick={handleTagClick}
+          handleStarClick={handleStarClick}
         />
       ))}
     </div>
@@ -42,7 +42,10 @@ const Feed = () => {
       (item) =>
         regex.test(item.creator.username) ||
         regex.test(item.comment) ||
-        regex.test(item.rating)
+        regex.test(item.rating) ||
+        regex.test(item.place.placeName) ||
+        regex.test(item.place.placeLocation) ||
+        regex.test(item.place.placeTypes)
     );
   };
 
@@ -61,24 +64,24 @@ const Feed = () => {
 
   const handleStarClick = (tagName) => {
     setSearchText(tagName);
-
     const searchResult = filterReviews(tagName);
     setSearchedResults(searchResult);
   };
 
   return (
     <section>
-      <form className='relative w-full flex-center'>
-        <input
-          type='text'
-          placeholder='Search for a review or a username'
-          value={searchText}
-          onChange={handleSearchChange}
-          required
-          className='search_input peer'
-        />
-      </form>
-
+      <div>
+        <form>
+          <input
+            type="text"
+            placeholder='Search for a review'
+            value={searchText}
+            onChange={handleSearchChange}
+            required
+            className="search_input"
+          />
+        </form>
+      </div>
       {/* All Reviews */}
       {searchText ? (
         <ReviewCardList
