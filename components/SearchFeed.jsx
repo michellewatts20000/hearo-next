@@ -73,19 +73,19 @@ const SearchFeed = () => {
   };
 
   return (
-    <section className="flex flex-col">
-      <div className="p-6">
+    <section className="">
+      <div className="p-6 text-center">
         <h1 className="font-display font-medium tracking-tight text-slate-900 text-5xl mb-10">
           Search <span className="relative whitespace-nowrap text-primary-500">Places</span>
         </h1>
-        <form className="flex flex-wrap items-center">
+        <form className="">
           <input
             type="text"
             placeholder="Search for a place"
             value={searchText}
             onChange={handleSearchChange}
             required
-            className="search_input"
+            className="search_input sm:mr-5 mb-5 sm:mb-0"
           />
           <select
             value={placeType}
