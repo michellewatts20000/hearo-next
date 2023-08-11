@@ -15,9 +15,18 @@
   padding: 120px 24px 160px 24px;
   pointer-events: none;
 }
-/* .hero {
-  min-height: 50vh;
-} */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  margin:0;
+
+}
+
+
 .main:before {
   background: radial-gradient(circle, rgba(17, 180, 194, 0) 0, #fafafa 100%);
   position: absolute;
@@ -118,7 +127,7 @@
 }
 
 .review_layout {
-  @apply space-y-6 py-8 sm:columns-2 sm:gap-6 xl:columns-3;
+  @apply space-y-6 py-2 sm:columns-2 sm:gap-6 xl:columns-3;
 }
 
 /* Feed Component */

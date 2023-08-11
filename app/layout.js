@@ -14,11 +14,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Provider>
-        <Navigation />
-          <main className="app">
-            {children}
-          </main>
-          <Footer />
+          <div className="hero">
+            <Navigation />
+            <main className="app">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </Provider>
       </body>
     </html>

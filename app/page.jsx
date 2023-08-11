@@ -1,33 +1,41 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { getBlogPosts } from "@src/utils";
 import '@styles/globals.css';
 import Main from "@components/Main";
-import Reviews from "@components/Reviews";
-import Feed from '@components/Feed';
+import ReviewCard from "@components/ReviewCard";
+
+const ReviewCardList = ({ data, handleStarClick }) => {
+  return (
+    <div className='mt-16 review_layout'>
+      {data.map((post) => (
+        <ReviewCard
+          key={post._id}
+          post={post}
+          handleStarClick={handleStarClick}
+        />
+      ))}
+    </div>
+  );
+};
+
 
 export default function Page() {
-  const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
+  const fetchPosts = async () => {
+    const response = await fetch("/api/review");
+    const data = await response.json();
+    setAllPosts(data);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const postsData = await getBlogPosts();
-        setPosts(postsData);
-      } catch (error) {
-        // Handle error here
-      }
-    };
-
-    fetchData();
+    fetchPosts();
   }, []);
 
   return (
     <>  
       <Main />
-      <Feed />
-      {/* <Reviews posts={posts} /> */}
+      <ReviewCardList data={allPosts.slice(0, 6)} />
     </>
   );
 }

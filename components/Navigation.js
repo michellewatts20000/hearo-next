@@ -30,6 +30,9 @@ const Nav = () => {
         <Link href="/about" className="text-slate-500 hover:text-black">
           <p>About</p>
         </Link>
+        <Link href="/search" className="text-slate-500 hover:text-black">
+          <p>Search</p>
+        </Link>
       </div>
       {/* Desktop Navigation */}
       <div className="sm:flex hidden p-10">
