@@ -7,7 +7,7 @@ import ReviewCard from "@components/ReviewCard";
 
 const ReviewCardList = ({ data, handleStarClick }) => {
   return (
-    <div className='mt-16 review_layout'>
+    <div className="mt-10 review_layout">
       {data.map((post) => (
         <ReviewCard
           key={post._id}

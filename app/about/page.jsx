@@ -21,8 +21,8 @@ import DbLevel from "@/components/DbLevel";
 
 const About = () => {
   return (
-    <div>
-     <h1 className="font-display font-medium tracking-tight text-slate-900 sm:text-5xl mb-10">
+    <div className="p-6">
+     <h1 className="font-display font-medium tracking-tight text-slate-900 text-5xl mb-10">
         About <span className="relative whitespace-nowrap text-primary-500">Hero</span>
       </h1>
 

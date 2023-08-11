@@ -74,11 +74,11 @@ const SearchFeed = () => {
 
   return (
     <section className="flex flex-col">
-      <div className="p-6 ">
-        <h1 className="font-display font-medium tracking-tight text-slate-900 sm:text-5xl mb-10">
+      <div className="p-6">
+        <h1 className="font-display font-medium tracking-tight text-slate-900 text-5xl mb-10">
           Search <span className="relative whitespace-nowrap text-primary-500">Places</span>
         </h1>
-        <form className="flex items-center space-x-4">
+        <form className="flex flex-wrap items-center">
           <input
             type="text"
             placeholder="Search for a place"
@@ -90,9 +90,9 @@ const SearchFeed = () => {
           <select
             value={placeType}
             onChange={(e) => setPlaceType(e.target.value)}
-            className="search_input"
+            className="reg_input"
           >
-            <option value="">Select Place Type</option>
+            <option value="">Select Type</option>
             <option value="bar">Bar</option>
             <option value="food">Food</option>
             <option value="restaurant">Restaurant</option>
