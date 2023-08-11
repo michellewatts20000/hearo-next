@@ -5,7 +5,9 @@ import SearchFeed from "@components/SearchFeed";
 
 const Search = () => {
   return (
-    <SearchFeed />
+    <>
+      <SearchFeed />
+    </>
   );
 };
 
